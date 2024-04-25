@@ -1,0 +1,45 @@
+// Assurez-vous que le conteneur principal utilise flexbox
+.content {
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 20px); // occupe toute la hauteur de la fenêtre
+    margin: 0;
+  }
+  
+//   .header, .footer {
+//     // Vous pouvez définir une hauteur spécifique ou laisser le contenu définir la hauteur
+//   }
+  
+  .main {
+    flex: 1; // prend tout l'espace disponible
+    margin: 10px;
+    padding-bottom: 40px; // ajusté pour garder un padding en bas
+    overflow-y: auto; // permet de défiler si nécessaire
+  }
+  
+  // Ajoutez des styles supplémentaires si nécessaire pour header et footer
+
+  
+/* Sélecteur pour la scrollbar entière */
+::-webkit-scrollbar {
+    width: 8px; /* Largeur de la scrollbar */
+    height: 12px; /* Hauteur de la scrollbar pour le défilement horizontal */
+}
+  
+  /* Sélecteur pour le fond de la scrollbar (la piste) */
+::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey; /* Ajoute une ombre interne à la piste */
+    border-radius: 10px; /* Arrondit les angles de la piste */
+}
+  
+  /* Sélecteur pour la poignée de la scrollbar (le thumb) */
+::-webkit-scrollbar-thumb {
+    background: black; /* Couleur de la poignée */
+    border-radius: 10px; /* Arrondit les angles de la poignée */
+}
+  
+  /* Sélecteur pour l'état hover sur la poignée de la scrollbar */
+::-webkit-scrollbar-thumb:hover {
+    background: darkblue; /* Couleur de la poignée au survol */
+}
+  

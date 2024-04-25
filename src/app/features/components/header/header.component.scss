@@ -1,0 +1,20 @@
+ 
+  .main {
+    padding: 10px;
+    height: 30px;
+    width: auto;
+    background-image: radial-gradient(circle, #92a6b2, #0b2031);
+    border-radius: 15px 15px 0 0;
+    box-shadow: 0 8px 16px 0 black;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    color: white
+  }
+
+  .main a{
+    margin: 0 10px;
+    text-decoration: none;
+    color: white;
+  }
