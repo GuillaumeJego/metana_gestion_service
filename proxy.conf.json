@@ -1,0 +1,9 @@
+{
+    "/API/*": {
+      "target": "http://localhost/metana_gestion_finances/metana_gestion_finances",
+      "secure": false,
+      "changeOrigin": true,
+      "logLevel": "debug"
+    }
+  }
+  

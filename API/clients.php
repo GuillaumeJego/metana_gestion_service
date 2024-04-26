@@ -23,6 +23,9 @@ try {
     throw new \PDOException($e->getMessage(), (int)$e->getCode());
 }
 
+// Ajout de l'entête CORS
+header("Access-Control-Allow-Origin: http://localhost:4200");
+
 // Exemple de récupération de données
 header("Content-Type: application/json");
 $stmt = $pdo->query('SELECT * FROM customers');
@@ -30,4 +33,3 @@ $results = $stmt->fetchAll();
 
 echo json_encode($results);
 ?>
-

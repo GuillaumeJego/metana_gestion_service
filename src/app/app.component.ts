@@ -4,6 +4,7 @@ import { RouterOutlet } from '@angular/router';
 import { HeaderComponent } from './features/components/header/header.component';
 import { FooterComponent } from './features/components/footer/footer.component';
 import { MainComponent } from './features/components/main/main.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-root',
@@ -11,6 +12,7 @@ import { MainComponent } from './features/components/main/main.component';
   imports: [
     CommonModule,
     RouterOutlet,
+    // HttpClientModule, // Ajouter HttpClientModule ici
     HeaderComponent,
     FooterComponent,
     MainComponent

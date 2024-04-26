@@ -1,0 +1,16 @@
+<section class="posts-container">
+    <div 
+      class="post-container"
+      *ngFor="let post of posts | async"
+    >
+      <h3> {{post.title}} </h3>
+      <h4> {{post.body}} </h4>
+      <span> 
+        Identifiant du post : {{post.id}} - posté par {{post.userId}} 
+      </span>
+      <div class="actions">
+        <button class="modifier">Modifier</button>
+        <button class="Supprimer">Supprimer</button>
+      </div>
+    </div>
+  </section>
