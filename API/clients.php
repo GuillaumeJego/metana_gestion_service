@@ -4,13 +4,10 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 // Connexion à la base de données
-$host = '127.0.0.1';
-$db   = 'metana_gestion_finances';
-$user = 'root'; // Remplacez par votre nom d'utilisateur pour MySQL
-$pass = 'Metana22++'; // Remplacez par votre mot de passe pour MySQL
-$charset = 'utf8mb4';
+$dsn = "mysql:host=localhost;dbname=metana_gestion_finances;charset=utf8mb4";
+$dbUser = getenv('DB_USER');
+$dbPass = getenv('DB_PASS');
 
-$dsn = "mysql:host=$host;dbname=$db;charset=$charset";
 $options = [
     PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
     PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
@@ -18,18 +15,60 @@ $options = [
 ];
 
 try {
-    $pdo = new PDO($dsn, $user, $pass, $options);
+    $pdo = new PDO($dsn, $dbUser, $dbPass, $options);
 } catch (\PDOException $e) {
     throw new \PDOException($e->getMessage(), (int)$e->getCode());
 }
 
-// Ajout de l'entête CORS
-header("Access-Control-Allow-Origin: http://localhost:4200");
+// Ajouter des entêtes CORS
+header('Access-Control-Allow-Origin: http://localhost:4200');
+header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
+header('Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With');
+header('Content-Type: application/json');
 
-// Exemple de récupération de données
-header("Content-Type: application/json");
-$stmt = $pdo->query('SELECT * FROM customers');
-$results = $stmt->fetchAll();
+// Ajouter cette réponse pour les requêtes OPTIONS utilisées par CORS
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    header('Access-Control-Allow-Credentials: true');
+    header('HTTP/1.1 204 No Content', true, 204);
+    exit;
+}
 
-echo json_encode($results);
+// Traiter la requête POST pour ajouter un nouveau client
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $data = json_decode(file_get_contents("php://input"), true);
+
+    // Ajouter une validation des données ici si nécessaire
+
+    $stmt = $pdo->prepare("INSERT INTO customers (firstname, lastname, address, mail, phone) VALUES (:firstname, :lastname, :address, :mail, :phone)");
+    $stmt->bindParam(':firstname', $data['firstname']);
+    $stmt->bindParam(':lastname', $data['lastname']);
+    $stmt->bindParam(':address', $data['address']);
+    $stmt->bindParam(':mail', $data['mail']);
+    $stmt->bindParam(':phone', $data['phone']);
+
+    try {
+        $stmt->execute();
+        $response = ['message' => 'Client ajouté avec succès', 'client_id' => $pdo->lastInsertId()];
+        http_response_code(201); // Created
+    } catch (\PDOException $e) {
+        $response = ['error' => $e->getMessage()];
+        http_response_code(500); // Internal Server Error
+    }
+
+    echo json_encode($response);
+    exit;
+}
+
+// Traiter la requête GET pour récupérer la liste des clients
+if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+    $stmt = $pdo->query('SELECT * FROM customers ORDER BY lastname');
+    $results = $stmt->fetchAll();
+    echo json_encode($results);
+    exit;
+}
+
+// Si la méthode HTTP n'est pas prise en charge
+http_response_code(405); // Method Not Allowed
+echo json_encode(['error' => 'Method Not Allowed']);
+exit;
 ?>

@@ -1,0 +1,22 @@
+<dialog [open]="showDialog">
+    <app-modification-clients 
+        [clientsModel]="clientsModel"
+        *ngIf="showDialog"
+    />
+</dialog>
+<section class="main">
+    <div class="main_Client">
+        <h2>Liste des clients</h2>
+        <ul>
+            <li *ngFor="let client of clients | async">
+                <button class="Modifier" title="Modifier" (click)="toggleDialog(client)">✍️</button>
+                <button class="Supprimer" title="Supprimer">🗑️</button>
+                {{ client.lastname | uppercase}} 
+                {{ client.firstname | titlecase}} 
+            </li>
+        </ul>
+    </div>
+</section>
+  
+  
+  

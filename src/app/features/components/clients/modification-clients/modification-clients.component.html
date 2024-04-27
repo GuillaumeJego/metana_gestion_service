@@ -1,0 +1,12 @@
+<form 
+    [formGroup]="editClientForm"
+    (ngSubmit)="onSubmit()"
+>
+    <input type="text" placeholder="Prénom" formControlName="firstname">
+    <input type="text" placeholder="Nom" formControlName="lastname">
+    <input type="text" placeholder="Adresse" formControlName="address">
+    <input type="text" placeholder="Email" formControlName="mail">
+    <input type="text" placeholder="Téléphone" formControlName="phone">
+    {{ editResultClient | async}}
+    <button type="submit">Modifier</button>
+</form>

@@ -1,8 +1,8 @@
-export interface PrestationModel {
+export interface ClientsModel {
     customer_id: number;
     firstname: string;
     lastname: string;
-    adress: string;
+    address: string;
     mail: string;
     phone: string;
 }

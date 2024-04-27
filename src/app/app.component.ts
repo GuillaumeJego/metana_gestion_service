@@ -12,7 +12,7 @@ import { HttpClientModule } from '@angular/common/http';
   imports: [
     CommonModule,
     RouterOutlet,
-    // HttpClientModule, // Ajouter HttpClientModule ici
+    HttpClientModule, // Ajouter HttpClientModule ici
     HeaderComponent,
     FooterComponent,
     MainComponent
