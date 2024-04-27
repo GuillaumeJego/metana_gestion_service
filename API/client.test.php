@@ -1,3 +1,4 @@
+
 <?php
 // Activer l'affichage des erreurs pour le développement
 error_reporting(E_ALL);
@@ -37,7 +38,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $data = json_decode(file_get_contents("php://input"), true);
 
-    // Préparer la requête d'insertion avec liaison de paramètres
+    // Ajouter une validation des données ici si nécessaire
+
     $stmt = $pdo->prepare("INSERT INTO customers (firstname, lastname, address, mail, phone) VALUES (:firstname, :lastname, :address, :mail, :phone)");
     $stmt->bindParam(':firstname', $data['firstname']);
     $stmt->bindParam(':lastname', $data['lastname']);
@@ -47,26 +49,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     try {
         $stmt->execute();
-        // Récupérer l'ID du dernier client inséré
-        $lastId = $pdo->lastInsertId();
-
-        // Récupérer les données complètes du client inséré
-        $stmt = $pdo->prepare("SELECT * FROM customers WHERE customer_id = :customer_id");
-        $stmt->bindParam(':customer_id', $lastId, PDO::PARAM_INT);
-        $stmt->execute();
-        $newClient = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        // Envoyer les détails complets du nouveau client
-        $response = [
-            'status' => 'success',
-            'message' => 'Client ajouté avec succès',
-            'client' => $newClient
-        ];
+        $response = ['message' => 'Client ajouté avec succès', 'client_id' => $pdo->lastInsertId()];
         http_response_code(201); // Created
     } catch (\PDOException $e) {
-        $response = [
-            'error' => $e->getMessage()
-        ];
+        $response = ['error' => $e->getMessage()];
         http_response_code(500); // Internal Server Error
     }
 
@@ -87,6 +73,3 @@ http_response_code(405); // Method Not Allowed
 echo json_encode(['error' => 'Method Not Allowed']);
 exit;
 ?>
-
-
-

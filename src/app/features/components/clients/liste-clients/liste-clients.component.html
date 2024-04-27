@@ -8,7 +8,7 @@
     <div class="main_Client">
         <h2>Liste des clients</h2>
         <ul>
-            <li *ngFor="let client of clients | async">
+            <li *ngFor="let client of clients">
                 <button class="Modifier" title="Modifier" (click)="toggleDialog(client)">✍️</button>
                 <button class="Supprimer" title="Supprimer">🗑️</button>
                 {{ client.lastname | uppercase}} 
