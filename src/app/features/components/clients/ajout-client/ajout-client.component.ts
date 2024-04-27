@@ -1,8 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ClientsModel } from '../../../../core/services/clients.model';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ClientsService } from '../../../../core/services/clients.service';
+import { ListeClientsComponent } from '../liste-clients/liste-clients.component';
 
 @Component({
   selector: 'app-ajout-client',
@@ -10,13 +11,15 @@ import { ClientsService } from '../../../../core/services/clients.service';
   imports: [
     CommonModule,
     ReactiveFormsModule,
+    ListeClientsComponent
   ],
   templateUrl: './ajout-client.component.html',
   styleUrl: './ajout-client.component.scss'
 })
 export class AjoutClientComponent implements OnInit{
   @Input() clientModel!: ClientsModel; // récupère le modèle client sur lequel se baser pour l'ajouter en BDD
-  // private clientService = inject(ClientsService); //
+  
+  @Output() closeDialog = new EventEmitter<void>(); // permet d'envoyer vers un autre component une information (ici c'est pour fermer la popup)
 
   addClientForm = new FormGroup({
     firstname: new FormControl(''),
@@ -46,6 +49,7 @@ export class AjoutClientComponent implements OnInit{
         },
         error: (error) => console.error('Erreur lors de l\'ajout du client', error)
       })
+      this.closeDialog.emit(); // Fermer la dialog après la soumission
     }
   }
 

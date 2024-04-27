@@ -4,6 +4,19 @@
         *ngIf="showDialog"
     />
 </dialog>
+<dialog [open]="showAddClientDialog">
+    <app-ajout-client
+        *ngIf="showAddClientDialog"
+        (closeDialog)="toggleAddClientDialog()"
+    />
+</dialog>
+<button 
+    class="addCustomer" 
+    title="Ajouter un client"
+    (click)="toggleAddClientDialog()"
+>
+    ➕ Ajouter un client
+</button>
 <section class="main">
     <div class="main_Client">
         <h2>Liste des clients</h2>
